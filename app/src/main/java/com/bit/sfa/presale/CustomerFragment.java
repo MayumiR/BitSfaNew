@@ -26,6 +26,7 @@ import com.bit.sfa.helpers.IResponseListener;
 import com.bit.sfa.helpers.SharedPref;
 import com.bit.sfa.libs.progress.ProgressWheel;
 import com.bit.sfa.model.Customer;
+import com.bit.sfa.settings.GPSTracker;
 import com.bit.sfa.utils.LocationProvider;
 import com.bit.sfa.utils.NetworkUtil;
 import com.bit.sfa.view.ActivityHome;
@@ -51,6 +52,7 @@ public class CustomerFragment extends Fragment {
     Button all,route;
     private LocationProvider locationProvider;
     private Location finalLocation;
+    GPSTracker gpsTracker;
    // private ProgressWheel progressWheel;
     public CustomerFragment() {
         // Required empty public constructor
@@ -69,6 +71,7 @@ public class CustomerFragment extends Fragment {
         all = (Button) view.findViewById(R.id.all_cust);
         route = (Button) view.findViewById(R.id.route_wise_cust);
         mSharedPref = SharedPref.getInstance(getActivity());
+        gpsTracker = new GPSTracker(getActivity());
         //data controls
         RouteController ds = new RouteController(getActivity());
         final CustomerController cusContrl = new CustomerController(getActivity());
@@ -146,85 +149,85 @@ public class CustomerFragment extends Fragment {
 
 
         /*******************************************getting GPS ******************************/
-        locationProvider = new LocationProvider((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE),
-                new LocationProvider.ICustomLocationListener() {
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-                        Log.d(LOG_TAG, "Provider enabled");
-                        locationProvider.startLocating();
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-                        Log.d(LOG_TAG, "Provider disabled");
-                        locationProvider.stopLocating();
-                    }
-
-                    @Override
-                    public void onUnableToGetLocation() {
-                        Toast.makeText(getActivity(), "Unable to get location", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onGotLocation(Location location, int locationType) {
-                        if (location != null) {
-                            finalLocation = location;
-
-SharedPref.getInstance(getActivity()).setGlobalVal("startLongitude", String.valueOf(finalLocation.getLongitude()));
-SharedPref.getInstance(getActivity()).setGlobalVal("startLatitude", String.valueOf(finalLocation.getLatitude()));
-                             System.currentTimeMillis();
-
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onProgress(int type) {
-                        if (type == LocationProvider.LOCATION_TYPE_GPS) {
-                            Toast.makeText(getActivity(),"Getting location (GPS)",Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getActivity(),"Getting location (Network)",Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-                });
-        try {
-            locationProvider.setOnGPSTimeoutListener(new LocationProvider.OnGPSTimeoutListener() {
-                @Override
-                public void onGPSTimeOut() {
-
-                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
-                            .content("Please move to a more clear location to get GPS")
-                            .positiveText("Try Again")
-                            .positiveColor(getResources().getColor(R.color.material_alert_neutral_button))
-                            .callback(new MaterialDialog.ButtonCallback() {
-                                @Override
-                                public void onPositive(MaterialDialog dialog) {
-                                    super.onPositive(dialog);
-                                    locationProvider.startLocating();
-                                }
-
-                                @Override
-                                public void onNegative(MaterialDialog dialog) {
-                                    super.onNegative(dialog);
-                                }
-
-                                @Override
-                                public void onNeutral(MaterialDialog dialog) {
-                                    super.onNeutral(dialog);
-                                }
-                            })
-                            .build();
-                    materialDialog.setCancelable(false);
-                    materialDialog.setCanceledOnTouchOutside(false);
-                    materialDialog.show();
-                }
-            }, 0);
-        } catch (UnsupportedOperationException e) {
-            e.printStackTrace();
-        }
+//        locationProvider = new LocationProvider((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE),
+////                new LocationProvider.ICustomLocationListener() {
+////
+////                    @Override
+////                    public void onProviderEnabled(String provider) {
+////                        Log.d(LOG_TAG, "Provider enabled");
+////                        locationProvider.startLocating();
+////                    }
+////
+////                    @Override
+////                    public void onProviderDisabled(String provider) {
+////                        Log.d(LOG_TAG, "Provider disabled");
+////                        locationProvider.stopLocating();
+////                    }
+////
+////                    @Override
+////                    public void onUnableToGetLocation() {
+////                        Toast.makeText(getActivity(), "Unable to get location", Toast.LENGTH_SHORT).show();
+////                    }
+////
+////                    @Override
+////                    public void onGotLocation(Location location, int locationType) {
+////                        if (location != null) {
+////                            finalLocation = location;
+////
+////SharedPref.getInstance(getActivity()).setGlobalVal("startLongitude", String.valueOf(finalLocation.getLongitude()));
+////SharedPref.getInstance(getActivity()).setGlobalVal("startLatitude", String.valueOf(finalLocation.getLatitude()));
+////                             System.currentTimeMillis();
+////
+////
+////
+////                        }
+////                    }
+////
+////                    @Override
+////                    public void onProgress(int type) {
+////                        if (type == LocationProvider.LOCATION_TYPE_GPS) {
+////                            Toast.makeText(getActivity(),"Getting location (GPS)",Toast.LENGTH_LONG).show();
+////                        } else {
+////                            Toast.makeText(getActivity(),"Getting location (Network)",Toast.LENGTH_LONG).show();
+////
+////                        }
+////                    }
+////                });
+////        try {
+////            locationProvider.setOnGPSTimeoutListener(new LocationProvider.OnGPSTimeoutListener() {
+////                @Override
+////                public void onGPSTimeOut() {
+////
+////                    MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity())
+////                            .content("Please move to a more clear location to get GPS")
+////                            .positiveText("Try Again")
+////                            .positiveColor(getResources().getColor(R.color.material_alert_neutral_button))
+////                            .callback(new MaterialDialog.ButtonCallback() {
+////                                @Override
+////                                public void onPositive(MaterialDialog dialog) {
+////                                    super.onPositive(dialog);
+////                                    locationProvider.startLocating();
+////                                }
+////
+////                                @Override
+////                                public void onNegative(MaterialDialog dialog) {
+////                                    super.onNegative(dialog);
+////                                }
+////
+////                                @Override
+////                                public void onNeutral(MaterialDialog dialog) {
+////                                    super.onNeutral(dialog);
+////                                }
+////                            })
+////                            .build();
+////                    materialDialog.setCancelable(false);
+////                    materialDialog.setCanceledOnTouchOutside(false);
+////                    materialDialog.show();
+////                }
+////            }, 0);
+////        } catch (UnsupportedOperationException e) {
+////            e.printStackTrace();
+////        }
 
         return view;
     }

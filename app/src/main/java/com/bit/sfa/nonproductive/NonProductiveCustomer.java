@@ -22,6 +22,7 @@ import com.bit.sfa.helpers.IResponseListener;
 import com.bit.sfa.helpers.SharedPref;
 import com.bit.sfa.model.Customer;
 import com.bit.sfa.model.DayNPrdHed;
+import com.bit.sfa.settings.GPSTracker;
 import com.bit.sfa.view.ActivityHome;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class NonProductiveCustomer extends Fragment{
     SharedPref mSharedPref;
     IResponseListener listener;
     TextView txtCusName;
+    GPSTracker gpsTracker;
     private DayNPrdHed tmpNonPrdHed;
 
     @Override
@@ -48,6 +50,7 @@ public class NonProductiveCustomer extends Fragment{
         mSharedPref = SharedPref.getInstance(getActivity());
         lvCustomers = (ListView) view.findViewById(R.id.cus_lv);
         ActivityHome home = new ActivityHome();
+        gpsTracker = new GPSTracker(getActivity());
         //-----------------------------------from Re order Only-----------------------------------------------------------------------------------
         Bundle mBundle = getArguments();
 

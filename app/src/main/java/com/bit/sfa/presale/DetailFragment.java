@@ -39,6 +39,7 @@ import com.bit.sfa.dialog.CustomProgressDialog;
 import com.bit.sfa.dialog.PrintPreviewAlertBox;
 import com.bit.sfa.helpers.NetworkFunctions;
 import com.bit.sfa.helpers.SharedPref;
+import com.bit.sfa.settings.GPSTracker;
 import com.bit.sfa.utils.UtilityContainer;
 import com.bit.sfa.view.ActivityHome;
 import com.bit.sfa.model.OrderDetail;
@@ -73,6 +74,7 @@ public class DetailFragment extends Fragment{
     private ImageButton pre_Product_btn;
     private FloatingActionButton save, undo, upload;
     //TODO :: should implement upload button in option menu
+    GPSTracker gpsTracker;
     private  String RefNo;
     public ActivityHome mainActivity;
     int seqno = 0;
@@ -102,11 +104,12 @@ public class DetailFragment extends Fragment{
         TotAmt = (TextView)view.findViewById(R.id.lblGrossVal);
         totQty = (TextView)view.findViewById(R.id.lblTotQty);
         seqno = 0;
-        mSharedPref =    SharedPref.getInstance(getActivity());
+        mSharedPref = SharedPref.getInstance(getActivity());
         RefNo = new ReferenceNum(getActivity()).getCurrentRefNo(getResources().getString(R.string.NumVal));
         mainActivity = (ActivityHome) getActivity();
         tmpsoHed=new Order();
         resultList = new ArrayList<>();
+        gpsTracker = new GPSTracker(getActivity());
         //------------------------------------------------------------------------------------------------------------------------
 
         showData();

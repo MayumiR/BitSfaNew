@@ -33,7 +33,7 @@ import com.bit.sfa.R;
 import java.util.ArrayList;
 
 /**
- * Created by Dhanushika on 4/4/2018.
+ * Created by rashmi on 4/4/2018.
  */
 
 public class CustomerRegMain extends Fragment {

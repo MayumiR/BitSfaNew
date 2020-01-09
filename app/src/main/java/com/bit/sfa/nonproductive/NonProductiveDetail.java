@@ -43,6 +43,7 @@ import com.bit.sfa.model.Customer;
 import com.bit.sfa.model.DayNPrdDet;
 import com.bit.sfa.model.DayNPrdHed;
 import com.bit.sfa.model.Reason;
+import com.bit.sfa.settings.GPSTracker;
 import com.bit.sfa.settings.ReferenceNum;
 import com.bit.sfa.utils.UtilityContainer;
 import com.bit.sfa.view.ActivityHome;
@@ -68,6 +69,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
     ReferenceNum referenceNum;
     ArrayList<DayNPrdDet> loadlist;
     String sRefno;
+    GPSTracker gpsTracker;
     FloatingActionMenu fam;
     FloatingActionButton fabPause, fabDiscard, fabSave;
     SharedPref mSharedPref;
@@ -76,7 +78,7 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.non_productive_details, container, false);
-
+        gpsTracker = new GPSTracker(getActivity());
         final ActivityHome activity = (ActivityHome) getActivity();
         lv_invent_load = (ListView) view.findViewById(R.id.lv_loading_sum);
         RefNo = (EditText) view.findViewById(R.id._refNo);
@@ -352,8 +354,8 @@ public class NonProductiveDetail extends Fragment implements OnClickListener{
                     nonhed.setNONPRDHED_REMARK(Remark.getText() + "");
                     nonhed.setNONPRDHED_ADDDATE(dateFormat.format(date));
                     nonhed.setNONPRDHED_ADDMACH(localSP.getString("MAC_Address", "No MAC Address").toString());
-                    nonhed.setNONPRDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
-                    nonhed.setNONPRDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
+                    nonhed.setNONPRDHED_LONGITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Longitude").equals("***") ? "0.00" : mSharedPref.getGlobalVal("Longitude"));
+                    nonhed.setNONPRDHED_LATITUDE(SharedPref.getInstance(getActivity()).getGlobalVal("Latitude").equals("***") ? "0.00" : mSharedPref.getGlobalVal("Latitude"));
                     nonhed.setNONPRDHED_ADDUSER(SharedPref.getInstance(getActivity()).getLoginUser().getCode());
                     nonhed.setNONPRDHED_COSTCODE("");
                     nonhed.setNONPRDHED_DEALCODE("");

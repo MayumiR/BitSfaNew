@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bit.sfa.adapter.SalesExpenseDetailAdapter;
 import com.bit.sfa.adapter.SalesExpenseGridDetails;
 import com.bit.sfa.R;
+import com.bit.sfa.settings.GPSTracker;
 import com.bit.sfa.settings.ReferenceNum;
 
 import com.bit.sfa.controller.DayExpDetController;
@@ -58,6 +59,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
     ReferenceNum referenceNum;
     ArrayList<DayExpDet> loadlist;
     int seqno = 0;
+    GPSTracker gpsTracker;
     String sExpenseCode;
     FloatingActionButton fabPause, fabDiscard, fabSave;
     FloatingActionMenu fam;
@@ -70,6 +72,7 @@ public class ExpenseDetail extends Fragment implements OnClickListener {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //activity.setSupportActionBar(toolbar);
         getActivity().setTitle("Expence specifics");
+        gpsTracker = new GPSTracker(getActivity());
        // toolbar.setLogo(R.drawable.dm_logo_64);
 
         seqno = 0;
